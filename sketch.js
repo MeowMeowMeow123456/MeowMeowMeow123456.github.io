@@ -202,6 +202,10 @@ function keyPressed() {
     //if (key == ' ' && avatar.isOnGround()){ // spacebar 
    //     avatar.jump();
   //    } 
+    if (key == ' ' && jumpCount < 2 && avatar.isOnGround) { // spacebar 
+        avatar.jump();
+        jumpCount++;
+       }
 
     // check for special states (game over or if game hasn't begun)
     //if (key == ' ' && avatar.isOnGround() == false){
@@ -210,18 +214,14 @@ function keyPressed() {
     if (isGameOver == true && key == ' ') {
         resetGame();
         startyell.play()
-    } else if (hasGameBegun == false && key == ' ') {
+    } 
+    
+    else if (hasGameBegun == false && key == ' ') {
         hasGameBegun = true;
         loop();
         startyell.play()
     }
     
-    if (key == ' ') { // spacebar 
-        if (avatar.isOnGround()) {
-            avatar.jump();
-            jumpCount++;
-       }
-    }
 }
 
 
