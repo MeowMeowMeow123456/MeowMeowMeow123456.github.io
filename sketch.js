@@ -202,9 +202,8 @@ function keyPressed() {
     //if (key == ' ' && avatar.isOnGround()){ // spacebar 
    //     avatar.jump();
   //    } 
-    if (key == ' ' && jumpCount < 2 && avatar.isOnGround == true) { // spacebar 
+    if (key == ' ' && avatar.isOnGround == true) { // spacebar 
         avatar.jump();
-        jumpCount++;
         }
 
     // check for special states (game over or if game hasn't begun)
