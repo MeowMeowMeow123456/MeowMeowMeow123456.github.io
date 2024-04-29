@@ -1,25 +1,3 @@
-// This is a simple side scroller game based loosely on the Chrome
-// web browswer game called dino. (When using Chrome, type in 'chrome://dino'
-// in the address bar and then hit the SPACE BAR key).
-//
-// By Jon Froehlich
-// http://makeabilitylab.io/
-//
-// See also:
-//  - Daniel Shiffman's "Chrome Dinosaur Game": https://youtu.be/l0HoJHc-63Q
-//  - My simple flappy bird: https://editor.p5js.org/jonfroehlich/sketches/sFOMDuDaw
-//  - A more complicated flappy bird: https://editor.p5js.org/jonfroehlich/sketches/shtF6XFeY
-// 
-// Extension Ideas
-//  - Have scrolling background (using parallax)
-//  - Have pits that you have to jump over
-//  - have platforms to jump on
-//  - have different barrier shapes and use https://github.com/bmoren/p5.collide2D
-//  - control x position of player (like SMB)
-//  - Use animated sprites for character (running and jump)
-//  - Jump height controlled by how long you hold down space (similar to SMB)
-//  - Use ml5js sound recognition library to play? See https://youtu.be/l0HoJHc-63Q?t=1204
-
 let ground;
 let avatar;
 let barriers;
