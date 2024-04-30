@@ -269,7 +269,6 @@ function keyPressed() {
     if (isGameOver == true && key == ' ') {
         resetGame();
         startyell.play()
-        
     }
 
     else if (hasGameBegun == false && key == ' ') {
