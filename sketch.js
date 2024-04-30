@@ -5,17 +5,25 @@ let startyell;
 let endsound;
 let masterRect;
 let Cloud;
+let Cloud2;
+
 
 let isGameOver = false;
 let hasGameBegun = false;
 let score = 0;
 let jumpCount = 0;
+let canjump = true;
 
 let minDistanceBetweenBarriers = 100;
 let nextSpawnDistance;
 let isInvincible = false;
 let w = window.innerWidth
 let h = window.innerHeight
+
+let CloudX = w;
+let Cloud2x = w / 2;
+
+let RectY = h / 2;
 
 
 function preload() {
@@ -26,10 +34,9 @@ function preload() {
 
     Cloud = loadImage('Cloud.png')
 
+    Cloud2 = loadImage('Cloud2.png')
 
-
-
-    //endsound = loadSound('again/subway-surfers-crash.mp3')
+    endsound = loadSound('subway-surfers-crash.mp3')
 }
 
 
@@ -42,6 +49,9 @@ function setup() {
 
     // stop game loop until space bar hit to begin
     noLoop();
+
+    startyell.setVolume(1)
+    endsound.setVolume(1)
 }
 
 
@@ -52,16 +62,49 @@ class Ground extends Shape {
         let groundHeight = ceil(height - yGround);
         super(0, yGround, width, groundHeight);
         this.fillColor = color(128);
+        this.dividerWidth = 100; // Width of each divider
+        this.dividerHeight = this.height / 24; // Height of each divider
+        this.dividerSpeed = 9; // Speed of the divider movement
+        this.dividerSpacing = 200; // Spacing between dividers
+        this.dividers = []; // Array to store x-positions of dividers
+        this.initializeDividers();
+    }
+
+    initializeDividers() {
+        // Initialize dividers at suitable intervals
+        for (let x = width; x > -this.dividerWidth; x -= this.dividerSpacing) {
+            this.dividers.push(x);
+        }
     }
 
     draw() {
         push();
         noStroke();
         fill(this.fillColor);
-        rect(this.x, this.y, this.width, this.height);
+        rect(this.x, this.y, this.width, this.height); // Draw the main road
+
+        // Draw the dividers
+        fill(255); // White color for the dividers
+        for (let x of this.dividers) {
+            rect(x, this.y + (this.height - this.dividerHeight) / 2, this.dividerWidth, this.dividerHeight);
+        }
         pop();
+
+        // Update the position of each divider
+        for (let i = 0; i < this.dividers.length; i++) {
+            this.dividers[i] -= this.dividerSpeed;
+            // Reset the position of the divider when it moves off the left side of the canvas
+            if (this.dividers[i] + this.dividerWidth < 0) {
+                this.dividers[i] = width;
+            }
+        }
     }
 }
+
+
+
+
+
 
 
 
@@ -141,8 +184,8 @@ class Avatar extends Shape {
 //chat gpt did this
 class Barrier extends Shape {
     constructor(x, yGround) {
-        let barrierWidth = random(20, 45);
-        let barrierHeight = random(20, 45);
+        let barrierWidth = random(30, 70);
+        let barrierHeight = random(30, 70);
         let y = yGround - barrierHeight;
         super(x, y, barrierWidth, barrierHeight);
         this.fillColor = color(57);
@@ -200,12 +243,25 @@ function resetGame() {
 
 function keyPressed() {
     //if (key == ' ' && avatar.isOnGround()){ // spacebar 
-   //     avatar.jump();
-  //    } 
-    if (key == ' ' && avatar.isOnGround() == true) { // spacebar 
-        avatar.jump();
+    //     avatar.jump();
+    //    } 
+    //Adhish helped me with this/////
+    if (key == ' ' && avatar.y >> h / 2 - 60 && canjump == true) { // spacebar 
+        if (jumpCount < 2) {
+            jumpCount += 1
+            avatar.jump();
+            canjump = true
+        }
+        else {
+            canjump == false
+            jumpCount = 0
         }
 
+    }
+    if (avatar.isOnGround) {
+        jumpCount = 0
+        canjump = true
+    }
     // check for special states (game over or if game hasn't begun)
     //if (key == ' ' && avatar.isOnGround() == false){
     //startyell.play()
@@ -213,14 +269,17 @@ function keyPressed() {
     if (isGameOver == true && key == ' ') {
         resetGame();
         startyell.play()
-    } 
-    
+        
+    }
+
     else if (hasGameBegun == false && key == ' ') {
         hasGameBegun = true;
         loop();
         startyell.play()
     }
-    
+
+
+
 }
 
 
@@ -228,7 +287,7 @@ function keyPressed() {
 
 
 function draw() {
-    background(80);
+    background(65, 129, 126);
 
 
     if (barriers.length <= 0 || width - barriers[barriers.length - 1].x >= nextSpawnDistance) {
@@ -258,10 +317,38 @@ function draw() {
         }
     }
 
+    if (isGameOver == true) {
+        endsound.play()
+    }
+
     avatar.update(ground.y);
     ground.draw();
     avatar.draw();
     drawScore();
+
+    CloudX -= 5
+    Cloud2x -= 5
+
+    RectY = 0
+
+    if (hasGameBegun == true && RectY < -masterRect.height) {
+        RectY = height;
+    }
+
+    image(masterRect, 5, 280, 200, 200)
+
+    if (hasGameBegun == true && CloudX < -Cloud.width) {
+        CloudX = width;
+    }
+
+    image(Cloud, CloudX, 10, 200, 200)
+
+    if (hasGameBegun == true && Cloud2x < -Cloud2.width) {
+        Cloud2x = width;
+    }
+
+    image(Cloud2, Cloud2x, 10, 200, 200)
+
 }
 
 function drawScore() {
@@ -300,7 +387,5 @@ function drawScore() {
         text('Escape from Master Rect() and jump over his rectangle minions.', width / 2, height / 2.5)
         text('Press SPACE BAR to play!', width / 2, height / 2);
     }
-
 }
-
 
