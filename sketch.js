@@ -202,7 +202,7 @@ function keyPressed() {
     //if (key == ' ' && avatar.isOnGround()){ // spacebar 
    //     avatar.jump();
   //    } 
-    if (key == ' ' && avatar.isOnGround == true) { // spacebar 
+    if (key == ' ' && avatar.isOnGround() == true) { // spacebar 
         avatar.jump();
         }
 
