@@ -368,9 +368,11 @@ function drawScore() {
         textSize(35);
         fill(255);
         text('GAME OVER!', width / 2, height / 3);
+        text('Master Rect() has caught you!', width / 2, height / 2);
 
         textSize(12);
         text('Press SPACE BAR to play again.', width / 2, height / 2);
+
     } else if (hasGameBegun == false) {
         // if we're here, then the game hasnt started yet
 
