@@ -384,6 +384,7 @@ function drawScore() {
         fill(255);
         text('You’re a circle in a world full of rectangles. The rectangles are trying to kill you!', width / 2, height / 3)
         text('Escape from Master Rect() and jump over his rectangle minions.', width / 2, height / 2.5)
+        textSize(12);
         text('Press SPACE BAR to play!', width / 2, height / 2);
     }
 }
