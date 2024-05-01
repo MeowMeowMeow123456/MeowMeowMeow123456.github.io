@@ -1,3 +1,4 @@
+//variables 
 let ground;
 let avatar;
 let barriers;
